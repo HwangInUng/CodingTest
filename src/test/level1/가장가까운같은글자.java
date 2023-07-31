@@ -12,10 +12,10 @@ public class 가장가까운같은글자 {
                 answer[i] = -1;
             } else if (i > 0 && !s.substring(0, i).contains(word)) {
                 answer[i] = -1;
-            } else if(i > 0 && s.substring(0, i).contains(word)){
+            } else if (i > 0 && s.substring(0, i).contains(word)) {
                 //3. 동일 문자 존재 시 현재 인덱스 - 해당 인덱스
-                int index = s.lastIndexOf(word, i-1);
-                answer[i] = i-index;
+                int index = s.lastIndexOf(word, i - 1);
+                answer[i] = i - index;
             }
         }
 
