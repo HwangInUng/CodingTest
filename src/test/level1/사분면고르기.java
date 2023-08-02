@@ -19,5 +19,6 @@ public class 사분면고르기 {
         } else if (x > 0 && y < 0) {
             System.out.println(4);
         }
+
     }
 }
