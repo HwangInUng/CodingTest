@@ -3,42 +3,32 @@ package test.baekjoon.datastructure;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.PriorityQueue;
+import java.util.LinkedList;
 import java.util.StringTokenizer;
 
 public class B_1966 {
     // 문서 클래스
-    public static class Document implements Comparable<Document> {
+    public static class Document {
         private int no;
-        private int rank;
+        private int priority;
 
-        Document(int no, int rank) {
+        Document(int no, int priority) {
             this.no = no;
-            this.rank = rank;
+            this.priority = priority;
         }
 
-        public int getRank() {
-            return rank;
+        public int getPriority() {
+            return priority;
         }
 
         public int getNo() {
             return no;
         }
 
-        @Override
-        public int compareTo(Document o2) {
-            if(this.rank > o2.getRank()) {
-                return -1;
-            } else if (this.rank == o2.getRank()) {
-                return 0;
-            } else {
-                return 1;
-            }
-        }
 
         @Override
         public String toString() {
-            return "no: " + no + ", rank: " + rank;
+            return "no: " + no + ", priority: " + priority;
         }
     }
 
@@ -52,25 +42,37 @@ public class B_1966 {
         for (int i = 0; i < n; i++) {
             st = new StringTokenizer(br.readLine());
             int count = Integer.parseInt(st.nextToken());
-            int number = Integer.parseInt(st.nextToken());
-            PriorityQueue<Document> pq = new PriorityQueue<>();
+            int target = Integer.parseInt(st.nextToken()); // 순서
+            LinkedList<Document> queue = new LinkedList<>();
 
             st = new StringTokenizer(br.readLine());
             for (int j = 0; j < count; j++) {
-                int rank = Integer.parseInt(st.nextToken());
-                pq.add(new Document(j, rank));
+                int priority = Integer.parseInt(st.nextToken());
+                queue.add(new Document(j, priority));
             }
 
-            int j = 0;
+            int printOrder = 0;
+
             while (true) {
-                j++;
-                if(pq.peek().getNo() == number) {
-                    pq.poll();
-                    sb.append(j).append("\n");
-                    break;
+                Document current = queue.poll();
+                boolean isOver = false;
+
+                for(Document doc : queue) {
+                    if(current.getPriority() < doc.getPriority()) {
+                        isOver = true;
+                        break;
+                    }
                 }
 
-                pq.poll();
+                if(isOver) {
+                    queue.add(current);
+                } else {
+                    printOrder++;
+                    if(current.getNo() == target) {
+                        sb.append(printOrder).append("\n");
+                        break;
+                    }
+                }
             }
         }
 
